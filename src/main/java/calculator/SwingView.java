@@ -55,9 +55,11 @@ public class SwingView implements View {
     public enum ButtonType { NUMBER, FUNCTION }
 
     public SwingView() throws IOException {
-        Locale.setDefault(Locale.US);
-        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
-        symbols.setDecimalSeparator('.');
+        //Locale.setDefault(Locale.US);
+        //DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
+        //symbols.setDecimalSeparator('.');
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+        symbols.setDecimalSeparator(',');
         decimalFormat = new DecimalFormat("0.###############", symbols);
         decimalFormat.setGroupingUsed(false);
 
@@ -112,7 +114,7 @@ public class SwingView implements View {
         butAbs = createButton("abs", ButtonType.FUNCTION);
         butBin = createButton("bin", ButtonType.FUNCTION);
         butNegate = createButton("+/-", ButtonType.NUMBER);
-        butDecimal = createButton(".", ButtonType.NUMBER);
+        butDecimal = createButton(",", ButtonType.NUMBER);
 
         setupLayout();
     }
@@ -278,11 +280,13 @@ public class SwingView implements View {
         }
 
         // Eliminar punto final sen díxitos
-        if (textValue.endsWith(".")) {
+        if (textValue.endsWith(".") || textValue.endsWith(",")) {
             textValue = textValue.substring(0, textValue.length() - 1);
         }
 
         try {
+            //return Double.parseDouble(textValue);
+            textValue = textValue.replace(',', '.');
             return Double.parseDouble(textValue);
         } catch (NumberFormatException e) {
             // Se por calquera motivo non é un número válido, devolve 0.0
