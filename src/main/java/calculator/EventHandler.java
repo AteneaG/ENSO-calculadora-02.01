@@ -23,6 +23,16 @@ public interface EventHandler {
      * Handle a decimal point button press
      */
     void onDecimalPressed();
+
+    /**
+     * Handle PI constant button press
+     */
+    void onPiPressed();
+
+    /**
+     * Handle Euler's number constant button press
+     */
+    void onEPressed();
     
     /**
      * Handle a binary operator button press
