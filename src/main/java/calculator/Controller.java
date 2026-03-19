@@ -62,6 +62,16 @@ public class Controller implements EventHandler {
             view.setDisplay(displayBuffer.toString());
         }
     }
+
+    @Override
+    public void onPiPressed() {
+        setConstant(Math.PI);
+    }
+
+    @Override
+    public void onEPressed() {
+        setConstant(Math.E);
+    }
     
     @Override
     public void onBinaryOperatorPressed(BinaryOperatorModes mode) {
@@ -116,6 +126,14 @@ public class Controller implements EventHandler {
         model.reset();
         view.clearDisplay();
         resetingInput = false;
+    }
+
+    private void setConstant(Double value) {
+        String constantText = formatResult(value);
+        displayBuffer = new StringBuilder(constantText);
+        view.setDisplay(constantText);
+        // After inserting a constant, number input should start a new value.
+        resetingInput = true;
     }
     
     private String formatResult(Double result) {
