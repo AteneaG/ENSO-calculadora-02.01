@@ -39,8 +39,9 @@ public class SwingView implements View {
     private final JButton[] butNums;
     private final JButton butAdd, butMinus, butMultiply, butDivide,
             butEqual, butCancel, butSqrt, butSquare, butInv, butCos, 
-            butSin, butTan, butPower, butLog, butPercent, butAbs, butBin, 
-            butln, butNegate, butDecimal, butPi, butE;
+            butSin, butTan, butAsin, butAcos, butAtan, butPower, 
+            butLog, butPercent, butAbs, butBin, butln, butNegate, 
+            butDecimal, butPi, butE;
 
     private EventHandler eventHandler;
 
@@ -67,8 +68,8 @@ public class SwingView implements View {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
-        subPanels = new JPanel[9];
-        for (int i = 0; i < 9; i++) {
+        subPanels = new JPanel[10];
+        for (int i = 0; i < 10; i++) {
             subPanels[i] = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 3));
         }
 
@@ -102,6 +103,9 @@ public class SwingView implements View {
         butCos = createButton("cos", ButtonType.FUNCTION);
         butSin = createButton("sin", ButtonType.FUNCTION);
         butTan = createButton("tan", ButtonType.FUNCTION);
+        butAsin = createButton("asin", ButtonType.FUNCTION);
+        butAcos = createButton("acos", ButtonType.FUNCTION);
+        butAtan = createButton("atan", ButtonType.FUNCTION);
         butln = createButton("ln", ButtonType.FUNCTION);
         butPower = createButton("x^y", ButtonType.FUNCTION);
         butLog = createButton("log", ButtonType.FUNCTION);
@@ -189,15 +193,21 @@ public class SwingView implements View {
         subPanels[7].add(butTan);
         mainPanel.add(subPanels[7]);
 
-        // --- Row 8 ---
-        subPanels[8].add(butPercent);
-        subPanels[8].add(butAbs);
-        subPanels[8].add(butBin);
+        // --- Row 8: Inverse trigonometric ---
+        subPanels[8].add(butAsin);
+        subPanels[8].add(butAcos);
+        subPanels[8].add(butAtan);
         mainPanel.add(subPanels[8]);
+
+        // --- Row 9 ---
+        subPanels[9].add(butPercent);
+        subPanels[9].add(butAbs);
+        subPanels[9].add(butBin);
+        mainPanel.add(subPanels[9]);
     }
 
     public void init() {
-        frame.setSize(465, 460);
+        frame.setSize(465, 510);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -228,6 +238,9 @@ public class SwingView implements View {
         butCos.addActionListener(e -> eventHandler.onUnaryOperatorPressed(COS));
         butSin.addActionListener(e -> eventHandler.onUnaryOperatorPressed(SIN));
         butTan.addActionListener(e -> eventHandler.onUnaryOperatorPressed(TAN));
+        butAsin.addActionListener(e -> eventHandler.onUnaryOperatorPressed(ASIN));
+        butAcos.addActionListener(e -> eventHandler.onUnaryOperatorPressed(ACOS));
+        butAtan.addActionListener(e -> eventHandler.onUnaryOperatorPressed(ATAN));
         butLog.addActionListener(e -> eventHandler.onUnaryOperatorPressed(LOG));
         butln.addActionListener(e -> eventHandler.onUnaryOperatorPressed(LN));
         butPercent.addActionListener(e -> eventHandler.onUnaryOperatorPressed(PERCENT));
