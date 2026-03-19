@@ -2,7 +2,7 @@
  * @name        Swing implementation of Calculator View interface
  * @package     calculator
  * @file        SwingView.java
- * @description 
+ * @description
  */
 
 package calculator;
@@ -120,6 +120,7 @@ public class SwingView implements View {
         b.setPreferredSize(new java.awt.Dimension(80, 40));
         b.setBackground(type == ButtonType.NUMBER ? Color.WHITE : new Color(220, 255, 255));
         b.setFocusPainted(false);
+        b.setFocusable(false);
         b.setBorderPainted(true);
         b.setOpaque(true);
         return b;
@@ -235,6 +236,43 @@ public class SwingView implements View {
         butDecimal.addActionListener(e -> eventHandler.onDecimalPressed());
         butEqual.addActionListener(e -> eventHandler.onEqualsPressed());
         butCancel.addActionListener(e -> eventHandler.onClearPressed());
+
+        //Leer entradas de teclado para números, operadores y acciones comunes
+        frame.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent e) {
+                int keyCode = e.getKeyCode();
+                char keyChar = e.getKeyChar();
+                if (Character.isDigit(keyChar)) {
+                    eventHandler.onNumberPressed(Character.getNumericValue(keyChar));
+                } else {
+                    switch (keyChar) {
+                        case '+': eventHandler.onBinaryOperatorPressed(ADD); break;
+                        case '-': eventHandler.onBinaryOperatorPressed(MINUS); break;
+                        case '*': eventHandler.onBinaryOperatorPressed(MULTIPLY); break;
+                        case '/': eventHandler.onBinaryOperatorPressed(DIVIDE); break;
+                        case '^': eventHandler.onBinaryOperatorPressed(POWER); break;
+                        case '=': eventHandler.onEqualsPressed(); break;
+                        case 'c':
+                        case 'C': eventHandler.onClearPressed(); break;
+                        case '.': eventHandler.onDecimalPressed(); break;
+                        default:
+                            switch (keyCode) {
+                                case java.awt.event.KeyEvent.VK_ENTER:
+                                    eventHandler.onEqualsPressed();
+                                    break;
+                                case java.awt.event.KeyEvent.VK_ESCAPE:
+                                case java.awt.event.KeyEvent.VK_DELETE:
+                                case java.awt.event.KeyEvent.VK_BACK_SPACE:
+                                    eventHandler.onClearPressed();
+                                    break;
+                            }
+                    }
+                }
+            }
+        });
+        frame.setFocusable(true);
+        frame.requestFocusInWindow();
     }
 
     @Override
