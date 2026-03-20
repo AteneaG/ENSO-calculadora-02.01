@@ -55,4 +55,9 @@ public interface EventHandler {
      * Handle the clear/reset button press
      */
     void onClearPressed();
+
+    /**
+     * Maneja el botón de retroceso para eliminar el ultimo digito
+     */
+    void onBotonRetroceso();
 }
