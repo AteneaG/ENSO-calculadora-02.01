@@ -155,4 +155,31 @@ public class Controller implements EventHandler {
             return formatted;
         }
     }
+
+    @Override
+    public void onBotonRetroceso(){
+        // Si acabamos de mostrar un resultado (resetingInput es true), 
+        // sincronizamos el buffer con el número formateado antes de empezar a borrar.
+        if (resetingInput) {
+            Double valorActual = view.getDisplayValue();
+            if (valorActual != null) {
+                // Usamos formatResult para que el buffer tenga, por ejemplo, "567" y no "567.0"
+                displayBuffer = new StringBuilder(formatResult(valorActual));
+            }
+            resetingInput = false; // Pasamos a modo edición
+        }
+
+        // Comprobamos que haya algo que borrar
+        if (displayBuffer.length() > 0) {
+            // ELIMINA SOLO EL ÚLTIMO CARÁCTER
+            displayBuffer.setLength(displayBuffer.length() - 1);
+
+            // Actualizamos la pantalla con lo que queda en el buffer
+            if (displayBuffer.length() == 0) {
+                view.clearDisplay();
+            } else {
+                view.setDisplay(displayBuffer.toString());
+            }
+        }
+    }
 }
